@@ -26,7 +26,11 @@ const Login = () => {
       
       navigate('/profile');
     } catch (err) {
-      setError(err.response?.data?.message || 'Neuspešna prijava. Proveri podatke.');
+      if(err.response.status === 401) {
+        setError('Neispravno korisničko ime ili lozinka.');
+      } else {
+        setError('Greška na serveru. Proveri Network tab ili upotrebi debugger.');
+      }
     } finally {
       setLoading(false);
     }
@@ -44,9 +48,7 @@ const Login = () => {
           <input 
             type="text" 
             placeholder="Unesite korisničko ime"
-            {...register('username', { 
-              required: 'Korisničko ime je obavezno' 
-            })}
+            {...register('username', { required: 'Korisničko ime je obavezno' })}
           />
           {errors.username && <span className="error-message">{errors.username.message}</span>}
         </div>
@@ -56,9 +58,7 @@ const Login = () => {
           <input 
             type="password" 
             placeholder="Unesite lozinku"
-            {...register('password', { 
-              required: 'Lozinka je obavezna' 
-            })}
+            {...register('password', { required: 'Lozinka je obavezna' })}
           />
           {errors.password && <span className="error-message">{errors.password.message}</span>}
         </div>
@@ -73,7 +73,7 @@ const Login = () => {
         
         <div className="form-actions">
           <p>
-            Nemaš nalog? <Link to="/register">Registruj se</Link>
+            Nemaš nalog? <Link to="/register" style={{color:"#007bff"}}>Registruj se</Link>
           </p>
         </div>
       </form>

@@ -110,7 +110,7 @@ const Register = () => {
         
         <div className="form-actions">
           <p>
-            Već imaš nalog? <Link to="/login">Prijavi se</Link>
+            Već imaš nalog? <Link to="/login" style={{color:"#007bff"}}>Prijavi se</Link>
           </p>
         </div>
       </form>
