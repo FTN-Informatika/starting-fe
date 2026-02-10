@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import UserContext from './UserContext';
+import Header from './core/layout/Header';
+import Home from './core/layout/Home';
+import Login from './features/users/Login';
+import Register from './features/users/Register';
+import Profile from './features/users/Profile';
+import './core/global.scss';
 
-export default () => (
-  <>
-    <h1>Welcome to React Vite Micro App!</h1>
-    <p>Hard to get more minimal than this React app.</p>
-  </>
-);
+const App = () => {
+  let token = localStorage.getItem('token');
+  if(token) token = JSON.parse(atob(token.split('.')[1]));
+  const [user, setUser] = useState(token);
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      <BrowserRouter>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </UserContext.Provider>
+  );
+}
+
+export default App;
